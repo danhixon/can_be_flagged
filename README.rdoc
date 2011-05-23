@@ -1,0 +1,46 @@
+Flag This
+=================
+
+Allows for flags to be added to multiple and different models.
+
+== Resources
+
+Install
+
+* To install as a gem (recommended):
+** gem install flag_this or
+** Just add "gem 'flag_this'" to your Gemfile and "bundle install"
+ 
+Generate your flag model:
+
+** Rails 3: rails g flag
+
+Then migrate your database:
+
+rake db:migrate
+
+== Usage
+ 
+ * Mark your ActiveRecord model can_be_flagged.
+ 
+ class Post < ActiveRecord::Base
+ 	can_be_flagged
+ end
+ 
+ * Add a flag to a model instance
+ 
+ flaggable = Post.create(:text => "Don't be offended by this.")
+ flaggable.flags.create(:comment => "I am offended by that!")
+
+== Credits
+
+Juxie - The code for this plugin is heavily influenced by Acts As Commentable.
+Bacon Bear? - Frankenstien'd some features from acts_as_flaggable
+
+== Contributors
+
+Dan Hixon
+
+== License
+
+Flag This is Copyright © 2010-2011 Dan Hixon. It is free software, and may be redistributed under the terms specified in the MIT-LICENSE file.

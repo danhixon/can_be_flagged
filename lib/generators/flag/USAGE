@@ -1,0 +1,6 @@
+Description:
+    Copies flag.rb to app/models/.
+    Copies create_flags.rb to db/migrate
+
+Examples:
+    `rails generate flags`
