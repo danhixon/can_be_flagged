@@ -12,7 +12,13 @@ module FlagThis
     def is_flag_type?(type)
       type.to_s == role.singularize.to_s
     end
-
+    
+    after_create :callback_flaggable
+    # Pings the 'after_flagged' callback in the content model, if it exists.
+    def callback_flaggable
+     flaggable.callback :after_flagged
+    end
+     
     module Finders
       # Helper class method to lookup all flags assigned
       # to all flaggable types for a given user.

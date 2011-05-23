@@ -32,6 +32,26 @@ rake db:migrate
  flaggable = Post.create(:text => "Don't be offended by this.")
  flaggable.flags.create(:comment => "I am offended by that!")
 
+ * I like to add a counter cache column to my flaggable types:
+
+ add_column :posts, :flags_count, :integer
+
+ class Flag < ActiveRecord::Base
+   belongs_to :flaggable, :polymorphic=>true, :counter_cache=>true
+ end
+
+ * You can also add a callback
+   
+ class Article
+   can_be_flagged
+   def after_flagged
+     # send an email
+     # delete this post
+     # suspend the owner of the post if the flags.size > 3
+     # suspend the owner of the post if their total flags.count > 5
+   end
+ end
+
 == Credits
 
 Juxie - The code for this plugin is heavily influenced by Acts As Commentable.
