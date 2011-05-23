@@ -55,6 +55,7 @@ rake db:migrate
 == Credits
 
 Juxie - The code for this plugin is heavily influenced by Acts As Commentable.
+
 Bacon Bear? - Frankenstien'd some features from acts_as_flaggable
 
 == Contributors
