@@ -22,7 +22,7 @@ module FlagThis
 
       # Helper class method to look up all flags for 
       # flaggable class name and flaggable id.
-      def find_flags_for_flagable(flaggable_str, flaggable_id, role = "abuse")
+      def find_flags_for_flaggable(flaggable_str, flaggable_id, role = "abuse")
         where(["flaggable_type = ? and flaggable_id = ? and role = ?", flaggable_str, flaggable_id, role]).order("created_at DESC")
       end
 

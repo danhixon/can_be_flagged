@@ -51,7 +51,7 @@ class FlagThisTest < Test::Unit::TestCase
     reply = Reply.create(:text => "You should check out my website instead!")
     offensive_flag = reply.offensive_flags.create(:comment => "I am so offended!")
     assert_equal [offensive_flag], reply.offensive_flags
-    spam_flag = wall.spam_flags.create(:comment => "I can't stand the spam!")
+    spam_flag = reply.spam_flags.create(:comment => "I can't stand the spam!")
     assert_equal [spam_flag], reply.spam_flags
   end
 
@@ -76,7 +76,7 @@ class FlagThisTest < Test::Unit::TestCase
     offensive_flag = reply.offensive_flags.create(:comment => "gross!")
     assert_equal [offensive_flag], Reply.find_offensive_flags_for(reply)
 
-    spam_flag = wall.spam_flags.create(:comment => "I'm sick of sausage ads")
+    spam_flag = reply.spam_flags.create(:comment => "I'm sick of sausage ads")
     assert_equal [spam_flag], Reply.find_spam_flags_for(reply)
   end
 
@@ -89,10 +89,10 @@ class FlagThisTest < Test::Unit::TestCase
     assert_equal false, Post.find_flags_by_user(user2).include?(flag)
     
     reply = Reply.create(:text => "What would thousands of new visitors mean for your business?")
-    spam_flag = wall.spam_flags.create(:comment => "Stop selling stuff in replies!", :user => user)
+    spam_flag = reply.spam_flags.create(:comment => "Stop selling stuff in replies!", :user => user)
     assert_equal [spam_flag], Reply.find_spam_flags_by_user(user)
 
-    offensive_flag = wall.offensive_flags.create(:comment => "Offended!!", :user => user)
+    offensive_flag = reply.offensive_flags.create(:comment => "Offended!!", :user => user)
     assert_equal [offensive_flag], Reply.find_offensive_flags_by_user(user)
   end
 
@@ -102,14 +102,14 @@ class FlagThisTest < Test::Unit::TestCase
     post.add_flag(flag)
     assert_equal [flag], post.flags
 
-    wall = Reply.create(:text => "I am so eager to try something else right now.")
+    reply = Reply.create(:text => "I am so eager to try something else right now.")
     spam_flag = Flag.new(:comment => 'super spammy')
-    wall.add_spam_flag(spam_flag)
-    assert_equal [spam_flag], wall.spam_flags
+    reply.add_spam_flag(spam_flag)
+    assert_equal [spam_flag], reply.spam_flags
 
     offensive_flag = Flag.new(:comment => 'super offensive')
-    wall.add_offensive_flag(offensive_flag)
-    assert_equal [offensive_flag], wall.offensive_flags
+    reply.add_offensive_flag(offensive_flag)
+    assert_equal [offensive_flag], reply.offensive_flags
   end
 
   def test_is_flag_type
@@ -122,7 +122,7 @@ class FlagThisTest < Test::Unit::TestCase
     
     flag = Flag.new(:comment => "That is unfounded and thereby offensive.")
     reply.add_offensive_flag(flag)
-    assert_equal true, offensive_flag.is_flag_type?(:offensive)
+    assert_equal true, flag.is_flag_type?(:offensive)
 
     spam = Flag.new(:comment => 'Stop trying to sell happiness. It not work.')
     reply.add_spam_flag(spam)
