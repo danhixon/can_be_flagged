@@ -1,4 +1,4 @@
 # desc "Explaining what the task does"
-# task :acts_as_flaggable do
+# task :can_be_flagged do
 #   # Task goes here
 # end

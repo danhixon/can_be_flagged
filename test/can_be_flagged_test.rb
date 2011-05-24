@@ -8,9 +8,9 @@ ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => ":me
 class FlagThisTest < Test::Unit::TestCase
 
   def setup_flags
-    require File.expand_path(File.dirname(__FILE__) + '/../lib/generators/flag/templates/create_flags') 
+    require File.expand_path(File.dirname(__FILE__) + '/../lib/generators/flags/templates/create_flags') 
     CreateFlags.up
-    load(File.expand_path(File.dirname(__FILE__) + '/../lib/generators/flag/templates/flag.rb'))
+    load(File.expand_path(File.dirname(__FILE__) + '/../lib/generators/flags/templates/flag.rb'))
   end
 
   def setup_test_models
@@ -130,5 +130,13 @@ class FlagThisTest < Test::Unit::TestCase
     assert_equal false, spam.is_flag_type?(:abuse)
 
   end
-
+  
+  def test_after_flagged_callback
+    post = Post.create(:text => "Terrible Post")
+    post.flags.create(:comment => 'I wish to report this post.')
+    post.reload
+    assert_equal 1, post.flags_count
+    
+  end
+  
 end

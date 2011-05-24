@@ -5,28 +5,29 @@ module ActiveRecord
     def self.included(base)
       base.extend ClassMethods  
     end
-
+    
     module ClassMethods
-      def can_be_flagged(*args)
-        flag_roles = args.to_a.flatten.compact.map(&:to_sym)
+      def can_be_flagged(options = {})
+        roles = options.delete(:roles)
+        flag_roles = roles.to_a.compact.map(&:to_sym)
         write_inheritable_attribute(:flag_types, (flag_roles.blank? ? [:abuse] : flag_roles))
         class_inheritable_reader(:flag_types)
 
-        options = ((args.blank? or args[0].blank?) ? {} : args[0])
+        #options = ((args.blank? or args[0].blank?) ? {} : args[0])
 
         if !flag_roles.blank?
           flag_roles.each do |role|
             has_many "#{role.to_s}_flags".to_sym,
-              {:class_name => "Flag",
+              { :class_name => "Flag",
                 :as => :flaggable,
                 :dependent => :destroy,
                 :conditions => ["role = ?", role.to_s],
-                :before_add => Proc.new { |x, c| c.role = role.to_s }}
+                :before_add => Proc.new { |x, c| c.role = role.to_s }}.merge(options)
           end
         else
-          has_many :flags, {:as => :flaggable, :dependent => :destroy}
+          has_many :flags, {:as => :flaggable, :dependent => :destroy}.merge(options)
         end
-
+        
         flag_types.each do |role|
           method_name = (role == :abuse ? "flags" : "#{role.to_s}_flags").to_s
           class_eval %{

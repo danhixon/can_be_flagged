@@ -1,4 +1,4 @@
-Flag This
+Can Be Flagged
 =================
 
 Allows for flags to be added to multiple and different models.
@@ -8,16 +8,16 @@ Allows for flags to be added to multiple and different models.
 Install
 
 * To install as a gem (recommended):
-** gem install flag_this or
-** Just add "gem 'flag_this'" to your Gemfile and "bundle install"
+** gem install can_be_flagged or
+** Just add "gem 'can_be_flagged'" to your Gemfile and "bundle install"
  
 Generate your flag model:
 
-** Rails 3: rails g flag
+** Rails 3: rails g flags
 
 Then migrate your database:
 
-rake db:migrate
+** rake db:migrate
 
 == Usage
  
@@ -40,16 +40,33 @@ rake db:migrate
    belongs_to :flaggable, :polymorphic=>true, :counter_cache=>true
  end
 
+ * You can have different types of flags
+
+ class Article
+   can_be_flagged :offensive, :spam
+ end
+ 
+ * This gives you methods like this:
+ @article.offensive_flags.create(:comment => "gross!")
+ @article.spam_flags.create(:comment => "Don't sell your pharmaceuticals on this site!")
+ Aricle.find_spam_flags_for(@article)
+
  * You can also add a callback
    
  class Article
-   can_be_flagged
-   def after_flagged
+   can_be_flagged :after_add => :flagged
+
+   def flagged
      # send an email
-     # delete this post
-     # suspend the owner of the post if the flags.size > 3
-     # suspend the owner of the post if their total flags.count > 5
+     # maybe delete this article if there are too many flags
    end
+
+ end
+ 
+ * In fact you can pass any options that are accepted by has_many:
+ 
+ class Article
+   can_be_flagged :dependent=>:nullify
  end
 
 == Credits

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    flag_this (0.0.1)
+    can_be_flagged (0.0.2)
       activerecord (>= 3.0.0)
 
 GEM
@@ -27,5 +27,5 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  flag_this!
+  can_be_flagged!
   sqlite3

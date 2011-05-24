@@ -1,11 +1,9 @@
 class Flag < ActiveRecord::Base
-
   include FlagThis::Flag
-
+  this_is_a_flag
+  
   belongs_to :flaggable, :polymorphic => true
-
-  default_scope :order => 'created_at ASC'
-
   # Flags belong to a user
   belongs_to :user
+  
 end

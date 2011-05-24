@@ -4,7 +4,7 @@ module FlagThis
   module Flag
 
     def self.included(flag_model)
-      flag_model.extend Finders
+      flag_model.extend ClassMethods
       flag_model.scope :in_order, flag_model.order('created_at ASC')
       flag_model.scope :recent,   flag_model.order('created_at DESC')
     end
@@ -12,14 +12,12 @@ module FlagThis
     def is_flag_type?(type)
       type.to_s == role.singularize.to_s
     end
-    
-    after_create :callback_flaggable
-    # Pings the 'after_flagged' callback in the content model, if it exists.
-    def callback_flaggable
-     flaggable.callback :after_flagged
-    end
-     
-    module Finders
+   
+    module ClassMethods
+      def this_is_a_flag
+        #after_create :callback_flaggable
+        
+      end
       # Helper class method to lookup all flags assigned
       # to all flaggable types for a given user.
       def find_flags_by_user(user, role = "abuse")

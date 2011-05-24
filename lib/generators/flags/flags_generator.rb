@@ -1,10 +1,10 @@
 require 'rails/generators/migration'
 
-class FlagGenerator < Rails::Generators::Base
+class FlagsGenerator < Rails::Generators::Base
   include Rails::Generators::Migration
 
   def self.source_root
-    @_flag_this_source_root ||= File.expand_path("../templates", __FILE__)
+    @_can_be_flagged_source_root ||= File.expand_path("../templates", __FILE__)
   end
 
   def self.next_migration_number(path)
