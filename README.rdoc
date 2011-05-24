@@ -1,5 +1,4 @@
-Can Be Flagged
-=================
+== Can Be Flagged
 
 Allows for flags to be added to multiple and different models.
 
