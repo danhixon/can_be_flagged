@@ -6,11 +6,11 @@ class Post < ActiveRecord::Base
     self.flags_count += 1
     self.save
   end
-  
+
 end
 
 class User < ActiveRecord::Base
-  
+
 end
 
 class Reply < ActiveRecord::Base

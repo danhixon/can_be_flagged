@@ -3,15 +3,15 @@ module ActiveRecord
   module FlagThis #:nodoc:
 
     def self.included(base)
-      base.extend ClassMethods  
+      base.extend ClassMethods
     end
-    
+
     module ClassMethods
       def can_be_flagged(options = {})
         roles = options.delete(:roles)
         flag_roles = roles.to_a.compact.map(&:to_sym)
-        write_inheritable_attribute(:flag_types, (flag_roles.blank? ? [:abuse] : flag_roles))
-        class_inheritable_reader(:flag_types)
+				class_attribute :flag_types
+				self.flag_types = (flag_roles.blank? ? [:abuse] : flag_roles)
 
         #options = ((args.blank? or args[0].blank?) ? {} : args[0])
 
@@ -27,7 +27,7 @@ module ActiveRecord
         else
           has_many :flags, {:as => :flaggable, :dependent => :destroy}.merge(options)
         end
-        
+
         flag_types.each do |role|
           method_name = (role == :abuse ? "flags" : "#{role.to_s}_flags").to_s
           class_eval %{

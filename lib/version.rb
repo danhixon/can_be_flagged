@@ -1,3 +1,3 @@
-module FlagThis
-  VERSION = "0.0.2"
+module CanBeFlagged
+  VERSION = "0.0.3"
 end
